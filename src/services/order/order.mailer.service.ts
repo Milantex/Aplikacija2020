@@ -8,14 +8,20 @@ import { CartArticle } from "src/entities/cart-article.entiry";
 export class OrderMailer {
     constructor(private readonly mailerService: MailerService) { }
 
-    async sendOrderEmail(order: Order) {
-        await this.mailerService.sendMail({
-            to: order.cart.user.email,
-            bcc: MailConfig.orderNotificationMail,
-            subject: 'Order details',
-            encoding: 'UTF-8',
-            html: this.makeOrderHtml(order),
-        });
+    async sendOrderEmail(order: Order): Promise<boolean> {
+        try {
+            await this.mailerService.sendMail({
+                to: order.cart.user.email,
+                bcc: MailConfig.orderNotificationMail,
+                subject: 'Order details',
+                encoding: 'UTF-8',
+                html: this.makeOrderHtml(order),
+            });
+
+            return true;
+        } catch (e) {
+            return false;
+        }
     }
 
     private makeOrderHtml(order: Order): string {
