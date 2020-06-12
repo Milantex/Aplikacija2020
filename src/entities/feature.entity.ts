@@ -24,7 +24,7 @@ export class Feature {
   @Column({ type: "varchar", length: 32 })
   @Validator.IsNotEmpty()
   @Validator.IsString()
-  @Validator.Length(5, 32)
+  @Validator.Length(3, 32)
   name: string;
 
   @Column({ type: "int", name: "category_id", unsigned: true })
